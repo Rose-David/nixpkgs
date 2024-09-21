@@ -80,7 +80,7 @@ let
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "prusa-slicer";
-  version = "2.8.0";
+  version = "2.8.1";
   inherit patches;
 
   src = fetchFromGitHub {
