@@ -24,14 +24,15 @@ stdenv.mkDerivation (finalAttrs: {
   };
 
   postPatch = ''
-    # jq '.identifier = .tauri.bundle.identifier' src-tauri/tauri.conf.json | sponge src-tauri/tauri.conf.json
+    jq '.tauri.bundle.active = false' src-tauri/tauri.conf.json | sponge src-tauri/tauri.conf.json
     jq '.dependencies += .devDependencies' src-vue/package.json | sponge src-vue/package.json
   '';
 
   npmDeps = fetchNpmDeps {
-    name = "${finalAttrs.pname}- ${finalAttrs.version}-npm-deps";
-    inherit (finalAttrs) src;
-    hash = "sha256-Z2HR+BQfMwurLLn8YiLufK13rDXIm5rXdStJdDnfICw=";
+    name = "src-vue-0.0.0-npm-deps";
+    src = "${finalAttrs.src}/src-vue";
+    hash = "sha256-YuRjWnVt1lGQWycqyLRhnvvAefPvY8JHejS9SajjcsY=";
+    forceGitDeps = true;
   };
 
   cargoDeps = rustPlatform.fetchCargoVendor {
