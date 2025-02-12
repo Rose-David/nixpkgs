@@ -9,6 +9,7 @@
   nodejs,
   jq,
   moreutils,
+  vue-tsc,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -25,7 +26,6 @@ stdenv.mkDerivation (finalAttrs: {
   postPatch = ''
     # jq '.identifier = .tauri.bundle.identifier' src-tauri/tauri.conf.json | sponge src-tauri/tauri.conf.json
     jq '.dependencies += .devDependencies' src-vue/package.json | sponge src-vue/package.json
-    cat src-vue/package.json
   '';
 
   npmDeps = fetchNpmDeps {
@@ -56,6 +56,7 @@ stdenv.mkDerivation (finalAttrs: {
     rustPlatform.cargoSetupHook
     cargo-tauri_1.hook
     rustPlatform.cargoCheckHook
+    vue-tsc
   ];
   buildInputs = [
 
